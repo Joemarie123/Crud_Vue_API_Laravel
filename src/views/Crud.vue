@@ -18,7 +18,7 @@
             <td>{{ user.mobile }}</td>
             <td class="center">
                <!--  <v-btn class="mx-2" color="red"  @click="redirecttoHomeEventsViewList(row)"> -->
-                    <v-btn @click="presentDeleteAlert(user.id)">Delete Grade</v-btn>
+                    <v-btn @click="remove(user)">Delete Grade</v-btn>
            <!--   <v-icon size="25">mdi-delete</v-icon>
          </v-btn> -->
               </td>
@@ -79,6 +79,8 @@
   <script>
 
 import { mapActions, mapGetters } from 'vuex';
+import axios from 'axios';
+
 export default {
     name: 'HomePage',
   data() {
@@ -143,36 +145,17 @@ export default {
       }));
     },
 
-    async presentDeleteAlert(grade_id) {
-      const alert = await alertController.create({
-          header: 'Are you sure?',
-          subHeader: 'This action is delete.',
-          mode: "ios",
-          buttons: [
-            {
-              text: 'Cancel',
-              role: 'cancel',
-              handler: () => {
-                console.log("cancel delete=> ", grade_id);
-              },
-            },
-            {
-              text: 'OK',
-              role: 'confirm',
-              handler: () => {
-                this.deleteGrade(grade_id)
-                  .then(res => {
-                    console.log('Res=> ', res);
-                    this.fetchUsers();
-                  }).catch( e => console.log("Error=> ", e));
-                console.log("deleting=> ", grade_id);
-              },
-            },
-          ],
-        });
+        remove(){
+            var url = 'http://127.0.0.1:8000/api/delete/${employee.id}';
 
-        await alert.present();
-    },
+            axios.delete(url);
+            alert("Deleted");
+         /*    this.EmployeeLoad(); */
+
+            console.log("me");
+        },
+
+
 
     register() {
       console.log("register");
